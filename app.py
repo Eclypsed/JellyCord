@@ -8,6 +8,7 @@ class Jellfin:
     def __init__(self) -> None:
         self.config = {"SERVER_URL": None, "API_KEY": None}
         self.newest_log = None
+        self.active_devices = None
 
     def get_newest_log(self):
         response = requests.get(f'{self.config["SERVER_URL"]}System/ActivityLog/Entries?api_key={self.config["API_KEY"]}&limit=1')
@@ -22,14 +23,21 @@ class Jellfin:
     def update_current_playing(self):
         print("Fired")
 
+    def get_active_devices(self):
+        response = requests.get(f'{self.config["SERVER_URL"]}Devices/?api_key={self.config["API_KEY"]}')
+        json_data = json.loads(response.text)
+        active_devices = []
+        for item in json_data["Items"]:
+            active_devices.append(item["Name"])
+        return active_devices
+        
+
     def run(self):
-        self.newest_log = self.get_newest_log()
         while True:
-            new_log = self.get_newest_log()
-            if new_log != self.newest_log:
-                self.newest_log = new_log
-                print(new_log)
-                self.idenitify_log(new_log)
+            newest_log = self.get_newest_log()
+            if newest_log != self.newest_log:
+                self.newest_log = newest_log
+                print(newest_log)
             time.sleep(5)
 
 
