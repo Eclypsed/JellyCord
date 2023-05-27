@@ -1,0 +1,8 @@
+{
+    "server": "{{ServerUrl}}",
+    "device": "{{DeviceId}}",
+    "notification": "{{NotificationType}}",
+    "id": "{{ItemId}}",
+    "position": "{{PlaybackPositionTicks}}",
+    "playstate": "{{IsPaused}}"
+}
